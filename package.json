@@ -1,0 +1,8 @@
+{
+    "name": "Employees",
+    "dependencies": {
+        "express": "^4.16.4",
+        "knex": "^0.16.3",
+        "mysql": "^2.16.0"
+    }
+}
