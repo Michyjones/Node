@@ -23,7 +23,26 @@ function SingleEmployees(req, res) {
     })
     .catch(error => res.status(500).json(error));
 }
+
+function CreateEmployees(req, res) {
+  const { knex } = req.app.locals;
+  const payload = req.body;
+  requiredColumns = ['name', 'email', 'salary', 'department'];
+  payloadKeys = Object.keys(payload);
+  requiredColumnsExists = requiredColumns.every(rc => payloadKeys.includes(rc));
+  if (requiredColumnsExists) {
+    knex('employess')
+      .insert(payload)
+      .then(response => res.status(200).json('Employee created successfully'))
+      .catch(error => res.status(500).json(error));
+  } else {
+    return res.status(400)
+      .json(`Fill in the required fields ${requiredColumns}`);
+  }
+}
+
 module.exports = {
   AllEmployees,
-  SingleEmployees
+  SingleEmployees,
+  CreateEmployees
 };
