@@ -18,7 +18,7 @@ function SingleEmployees(req, res) {
       if (data.length > 0) {
         return res.status(200).json(data);
       } else {
-        return res.status(404).json(`No Employee with this ID ${id} !!`);
+        return res.status(404).json(`No Employee with  ID ${id} !!`);
       }
     })
     .catch(error => res.status(500).json(error));
@@ -36,13 +36,52 @@ function CreateEmployees(req, res) {
       .then(response => res.status(200).json('Employee created successfully'))
       .catch(error => res.status(500).json(error));
   } else {
-    return res.status(400)
+    return res
+      .status(400)
       .json(`Fill in the required fields ${requiredColumns}`);
   }
+}
+
+function UpdateEmployees(req, res) {
+  const { knex } = req.app.locals;
+  const { id } = req.params;
+  const payload = req.body;
+  knex('employess')
+    .where('id', id)
+    .update(payload)
+    .then(response => {
+      if (response) {
+        return res
+          .status(200)
+          .json(`You have successfully updated employee with ID ${id}`);
+      }
+      return res.status(404).json(`No employee with ID ${id}`);
+    })
+
+    .catch(error => res.status(500).json(error));
+}
+
+function DeleteEmployees(req, res) {
+  const { knex } = req.app.locals;
+  const { id } = req.params;
+  knex('employess')
+    .where('id', id)
+    .del()
+    .then(response => {
+      if (response) {
+        return res
+          .status(200)
+          .json(`You have successfully deleted employee with ID ${id}`);
+      }
+      return res.status(404).json(`No employee with ID ${id}`);
+    })
+    .catch(error => res.status(500).json(error));
 }
 
 module.exports = {
   AllEmployees,
   SingleEmployees,
-  CreateEmployees
+  CreateEmployees,
+  UpdateEmployees,
+  DeleteEmployees
 };
