@@ -24,6 +24,13 @@ router.post('/employees', jsonParser ,routes.employees.CreateEmployees);
 router.patch('/employees/:id', jsonParser, middlewares.getIDAsInt, routes.employees.UpdateEmployees);
 router.delete('/employees/:id', middlewares.getIDAsInt, routes.employees.DeleteEmployees);
 
+
+router.get('/department', routes.departments.AllDepartment);
+router.get('/department/:id', middlewares.getIDAsInt, routes.departments.SingleDepartment);
+router.post('/department', jsonParser ,routes.departments.CreatedeDartments);
+router.patch('/department/:id', jsonParser, middlewares.getIDAsInt, routes.departments.UpdateDepartments);
+router.delete('/department/:id', middlewares.getIDAsInt, routes.departments.DeleteDepartments);
+
 app.use('/api', router);
 
 
